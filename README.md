@@ -14,13 +14,8 @@ This helps keep projects consistent.
 
 1.  Download a release from the repository.
 2.  Extract the archive.
-3.  Copy the folder: `addons/naming_convention_checker`
-
-into your project: `res://addons/`
-
-4.  Enable the plugin: `Project → Project Settings → Plugins`
-
-Enable **Naming Convention Checker**.
+3.  Copy the folder: `addons/naming_convention_checker` into your project: `res://addons/`
+4.  Enable the plugin: `Project → Project Settings → Plugins → Naming Convention Checker`
 
 ## How It Works
 
@@ -127,7 +122,3 @@ character_material.tres
 fire_particles.tres  
 default_theme.tres
 ```
-The plugin detects:
-
--   native Godot classes
--   custom resource classes with `class_name`
