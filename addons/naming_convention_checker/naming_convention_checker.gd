@@ -1,7 +1,8 @@
 @tool
 extends EditorPlugin
 
-const SETTINGS_PATH: String = "res://addons/naming_convention_checker/settings.cfg"
+const DEFAULT_SETTINGS_PATH: String = "res://addons/naming_convention_checker/default/settings.default.txt"
+const USER_SETTINGS_PATH: String = "res://addons/naming_convention_checker/settings.cfg"
 
 var _config := NamingConventionConfig.new()
 var _script_checker := ScriptChecker.new()
@@ -10,6 +11,7 @@ var _file_checker := FileChecker.new()
 
 
 func _enter_tree() -> void:
+	_create_user_settings()
 	EditorInterface.get_resource_filesystem().filesystem_changed.connect(_run_check)
 
 
@@ -17,11 +19,28 @@ func _exit_tree() -> void:
 	EditorInterface.get_resource_filesystem().filesystem_changed.disconnect(_run_check)
 
 
+func _create_user_settings() -> void:
+	if FileAccess.file_exists(USER_SETTINGS_PATH): return
+	
+	var default_content: String = FileAccess.get_file_as_string(DEFAULT_SETTINGS_PATH)
+	var file := FileAccess.open(USER_SETTINGS_PATH, FileAccess.WRITE)
+	if file == null:
+		var error: String = error_string(file.get_open_error())
+		push_error("[NamingConventionChecker] Error: <%s> -> Could not create user settings at: %s" % [error, USER_SETTINGS_PATH])
+		return
+	
+	file.store_string(default_content)
+	file.close()
+	EditorInterface.get_resource_filesystem().scan()
+	print_rich("[color=green][NamingConventionChecker][/color] Settings created at: [color=white]%s[/color] - Edit it to define your naming conventions." % USER_SETTINGS_PATH)
+	
+
+
 func _run_check() -> void:
 	var filesystem_root: EditorFileSystemDirectory = EditorInterface.get_resource_filesystem().get_filesystem()
 	if filesystem_root == null: return
 	
-	_config.load_from(SETTINGS_PATH)
+	_config.load_from(USER_SETTINGS_PATH)
 	_script_checker.rules = _config.script_rules
 	_resource_checker.rules = _config.resource_rules
 	_file_checker.rules = _config.file_rules

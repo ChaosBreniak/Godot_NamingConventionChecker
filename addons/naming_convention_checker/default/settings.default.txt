@@ -1,0 +1,27 @@
+[Ignores]
+
+ignore_spaces=false
+ignored_extensions=["import", "uid", "cfg", "ini", "txt", "json", "md", "csv"]
+ignored_folders=["addons"]
+
+[Files]
+
+audio={"extensions": ["wav", "ogg", "mp3"], "prefixes": ["music_", "voice_", "SFX_"]}
+font={"extensions": ["ttf"], "prefixes": ["font_"]}
+mesh={"extensions": ["glb"], "prefixes": ["SM_", "SK_"]}
+scene={"extensions": ["tscn", "scn"], "prefixes": ["P_", "L_"]}
+shader={"extensions": ["gdshader"], "prefixes": ["SH_"]}
+texture={"extensions": ["png", "tga", "hdr", "jpg"], "prefixes": ["T_", "S_", "UI_", "VFX_"]}
+
+[Scripts] ; Files with extension ".gd"
+
+control={"class": "Control", "prefixes": ["ui_"]}
+
+[Resources] ; Files with extensions ".tres" or ".res"
+
+; BUILT-IN RESOURCES
+base_material_3d={"class": "BaseMaterial3D", "prefixes": ["M_"]}
+shader_material={"class": "ShaderMaterial", "prefixes": ["M_"]}
+particle_material={"class": "ParticleProcessMaterial", "prefixes": ["PM_"]}
+theme={"class": "Theme", "prefixes": ["theme_"]}
+stylebox={"class": "StyleBox", "prefixes": ["SB_"]}
