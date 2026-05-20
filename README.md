@@ -37,7 +37,7 @@ All rules are defined in: `addons/naming_convention_checker/settings.cfg`
 
 When enabled, the addon will create it if the file doesn't exist.
 
-The file contains **three sections**.
+The file contains **four sections**.
 
 ### Section: Ignores
 
