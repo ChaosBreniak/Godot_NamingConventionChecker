@@ -24,8 +24,11 @@ This helps keep projects consistent.
 Each time the filesystem changes (file added, renamed, removed, etc.), the plugin scans the project and verifies that filenames follow the rules defined in: `addons/naming_convention_checker/settings.cfg`
 
 If a rule is violated, a warning appears in the output:
+
 `[FILE NAMING] myTexture.png must begin with ["T_", "UI_"] -> res://textures/myTexture.png`
+
 or
+
 `[FILE NAMING] bad file name.png has space in its name -> res://textures/bad file name.png`
 
 ## Configuration
