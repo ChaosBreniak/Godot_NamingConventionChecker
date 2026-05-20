@@ -72,7 +72,7 @@ func _check_file(filename: String, directory_path: String) -> void:
 func _assert_prefix(filename: String, full_path: String, prefixes: PackedStringArray) -> void:
 	var base_name: String = filename.get_basename()
 	
-	for prefix in prefixes:
+	for prefix: String in prefixes:
 		if base_name.begins_with(prefix): return
 	
 	var message: String = "%s [color=grey]must begin with [color=yellow]%s[color=grey] -> [color=white]%s"
