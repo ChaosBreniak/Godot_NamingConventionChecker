@@ -1,3 +1,4 @@
+
 # Naming Convention Checker
 
 Breniak's **Godot Editor plugin** that warns when project files do not follow a defined naming convention.
@@ -32,7 +33,9 @@ All rules are defined in: `addons/naming_convention_checker/settings.cfg`
 
 The file contains **three sections**.
 
-### Section: Base
+### Section: Ignores
+
+This section is static, you can't add new keys.
 
 | Setting | Description |
 |--|--|
@@ -42,7 +45,7 @@ The file contains **three sections**.
 
 Example:
 ```ini
-[Base]  
+[Ignores]  
   
 ignore_spaces=false  
 ignored_extensions=["import","uid","cfg","ini"]  
@@ -58,7 +61,7 @@ Each entry is a **dictionary** with two fields:
 -   `extensions` → file extensions affected by the rule
 -   `prefixes` → valid prefixes for filenames
 
-You can add or remove entries as you wish as long as you respect the two field names.
+→ You can add or remove entries as you wish as long as you respect the two field names.
 
 **Example:**
 ```ini
@@ -85,18 +88,51 @@ main_menu.tscn
 explosion.wav
 ```
 
+### Section: Scripts
+
+This section defines rules for **GDScripts** (`.gd`).
+
+Each rule contains:
+
+-   `class` → Must match the exact `class_name` or native class in godot.
+-   `prefixes` → required filename prefixes
+
+→ You can add or remove entries as you wish as long as you respect the two field names.
+
+Example:
+```ini
+[Scripts]  
+  
+control={"class":"Control","prefixes":["ui_"]}
+actor={"class":"CharacterBody3D","prefixes":["c_"]}
+enemy={"class":"Actor","prefixes":["a_"]}
+```
+
+**Example:**
+
+Valid:
+```
+ui_screen_interface.gd
+c_walker.gd 
+a_orc.gd
+```
+Invalid:
+```
+screen_interface.gd  
+walker.gd 
+orc.gd
+```
+
 ### Section: Resources
 
 This section defines rules for **Godot resources** (`.tres` and `.res`).
-
-Instead of checking extensions, the plugin checks the **resource class**.
 
 Each rule contains:
 
 -   `class` → Native or custom resource class, it must match the exact `class_name` in godot.
 -   `prefixes` → required filename prefixes
 
-You can add or remove entries as you wish as long as you respect the two field names.
+→ You can add or remove entries as you wish as long as you respect the two field names.
 
 Example:
 ```ini
