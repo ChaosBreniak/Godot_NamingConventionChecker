@@ -18,6 +18,7 @@ This helps keep projects consistent.
 2.  Extract the archive.
 3.  Copy the folder: `addons/naming_convention_checker` into your project: `res://addons/`
 4.  Enable the plugin: `Project → Project Settings → Plugins → Naming Convention Checker`
+5.  Set your own convention in `addons/naming_convention_checker/settings.cfg`
 
 ## How It Works
 
@@ -55,7 +56,7 @@ Example:
   
 ignore_spaces=false  
 ignored_extensions=["import","uid","cfg","ini"]  
-ignored_folders=["addons", "temp", "script"]
+ignored_folders=["addons", "temp"]
 ```
 
 ### Section: Files
