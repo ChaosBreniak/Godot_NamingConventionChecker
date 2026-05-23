@@ -16,14 +16,18 @@ This helps keep projects consistent.
 2.  Extract the archive.
 3.  Copy the folder: `addons/naming_convention_checker` into your project: `res://addons/`
 4.  Enable the plugin: `Project → Project Settings → Plugins → Naming Convention Checker`
+5.  Set your own convention in `addons/naming_convention_checker/settings.cfg`
 
 ## How It Works
 
 Each time the filesystem changes (file added, renamed, removed, etc.), the plugin scans the project and verifies that filenames follow the rules defined in: `addons/naming_convention_checker/settings.cfg`
 
 If a rule is violated, a warning appears in the output:
+
 `[FILE NAMING] myTexture.png must begin with ["T_", "UI_"] -> res://textures/myTexture.png`
+
 or
+
 `[FILE NAMING] bad file name.png has space in its name -> res://textures/bad file name.png`
 
 ## Configuration
@@ -32,7 +36,7 @@ All rules are defined in: `addons/naming_convention_checker/settings.cfg`
 
 When enabled, the addon will create it if the file doesn't exist.
 
-The file contains **three sections**.
+The file contains **four sections**.
 
 ### Section: Ignores
 
