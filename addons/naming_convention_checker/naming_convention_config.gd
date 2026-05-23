@@ -2,7 +2,7 @@ class_name NamingConventionConfig extends RefCounted
 
 const IGNORES: String = "Ignores"
 
-var ignore_spaces: bool = false
+var ignore_snake_case: bool = false
 var ignored_extensions: PackedStringArray = []
 var ignored_folders: PackedStringArray = []
 var script_rules: Array[Dictionary]
@@ -14,9 +14,10 @@ func load_from(path: String) -> void:
 	var config := ConfigFile.new()
 	config.load(path)
 	
-	ignore_spaces = config.get_value(IGNORES, "ignore_spaces", false)
+	ignore_snake_case = config.get_value(IGNORES, "ignore_snake_case", false)
 	ignored_extensions = config.get_value(IGNORES, "ignored_extensions", [])
 	ignored_folders = config.get_value(IGNORES, "ignored_folders", [])
+	
 	script_rules = _get_rules(config, "Scripts")
 	file_rules = _get_rules(config, "Files")
 	resource_rules = _get_rules(config, "Resources")

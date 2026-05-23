@@ -1,5 +1,3 @@
-
-
 # Naming Convention Checker
 
 Breniak's **Godot Editor plugin** that warns when project files do not follow a defined naming convention.
@@ -42,7 +40,7 @@ This section is static, you can't add new keys.
 
 | Setting | Description |
 |--|--|
-| `ignore_spaces` | If `false`, files containing spaces will trigger a warning |
+| `ignore_snake_case` | If `false`, files not written in snake_case will trigger a warning |
 | `ignored_extensions` | File extensions that will not be checked |
 | `ignored_folders` | Folder names that will be skipped entirely |
 
@@ -50,9 +48,9 @@ Example:
 ```ini
 [Ignores]  
   
-ignore_spaces=false  
+ignore_snake_case=false  
 ignored_extensions=["import","uid","cfg","ini"]  
-ignored_folders=["addons", "temp", "script"]
+ignored_folders=["addons", "temp"]
 ```
 
 ### Section: Files

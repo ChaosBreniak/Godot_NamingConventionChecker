@@ -8,6 +8,7 @@ var _config := NamingConventionConfig.new()
 var _script_checker := ScriptChecker.new()
 var _resource_checker := ResourceChecker.new()
 var _file_checker := FileChecker.new()
+var _regex_snake_case := RegEx.create_from_string("^[a-z0-9]+(_[a-z0-9]+)*$")
 
 
 func _enter_tree() -> void:
@@ -33,7 +34,6 @@ func _create_user_settings() -> void:
 	file.close()
 	EditorInterface.get_resource_filesystem().scan()
 	print_rich("[color=green][NamingConventionChecker][/color] Settings created at: [color=white]%s[/color] - Edit it to define your naming conventions." % USER_SETTINGS_PATH)
-	
 
 
 func _run_check() -> void:
@@ -50,13 +50,18 @@ func _run_check() -> void:
 
 func _check_directory(root: EditorFileSystemDirectory) -> void:
 	var stack: Array[EditorFileSystemDirectory] = [root]
-	
 	while not stack.is_empty():
 		var current: EditorFileSystemDirectory = stack.pop_back()
-		if current.get_name() in _config.ignored_folders: continue
+		var current_name: String = current.get_name()
+		if current_name in _config.ignored_folders: continue
+		
+		var current_path: String = current.get_path()
 		
 		for i: int in current.get_file_count():
-			_check_file(current.get_file(i), current.get_path())
+			_check_file(current.get_file(i), current_path)
+		
+		if not current_name.is_empty():
+			_assert_snake_case(current_name, current_path)
 		
 		for i: int in current.get_subdir_count():
 			stack.push_back(current.get_subdir(i))
@@ -67,10 +72,6 @@ func _check_file(filename: String, directory_path: String) -> void:
 	if extension in _config.ignored_extensions: return
 	
 	var full_path: String = directory_path.path_join(filename)
-	
-	if not _config.ignore_spaces and filename.contains(" "):
-		var error_space: String = "%s [color=grey]has space in its name -> [color=white]%s"
-		_print_violation(error_space % full_path)
 	
 	var rule: Dictionary = {}
 	match extension:
@@ -83,17 +84,32 @@ func _check_file(filename: String, directory_path: String) -> void:
 		_:
 			rule = _file_checker.get_matched_rule(full_path)
 	
-	if rule.is_empty(): return
-	
-	_assert_prefix(filename, full_path, rule["prefixes"])
+	if rule.is_empty():
+		_assert_snake_case(filename, full_path)
+	else:
+		_assert_prefix(filename, full_path, rule["prefixes"])
 
 
 func _assert_prefix(filename: String, full_path: String, prefixes: PackedStringArray) -> void:
 	for prefix: String in prefixes:
-		if filename.begins_with(prefix): return
+		if not filename.begins_with(prefix): continue
+		
+		var prefixless_file: String = filename.substr(prefix.length())
+		_assert_snake_case(prefixless_file, full_path)
+		return
 	
 	var message: String = "%s [color=grey]must begin with [color=yellow]%s[color=grey] -> [color=white]%s"
 	_print_violation(message % [filename, prefixes, full_path])
+
+
+func _assert_snake_case(asset_name: String, full_path: String) -> void:
+	if _config.ignore_snake_case: return
+	
+	var asset_basename: String = asset_name.get_basename()
+	if _regex_snake_case.search(asset_basename) != null: return
+	
+	var message: String = "%s [color=grey]is not snake_case -> [color=white]%s"
+	_print_violation(message % [asset_basename, full_path])
 
 
 func _print_violation(text: String) -> void:

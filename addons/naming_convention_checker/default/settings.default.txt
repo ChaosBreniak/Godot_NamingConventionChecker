@@ -1,6 +1,6 @@
 [Ignores]
 
-ignore_spaces=false
+ignore_snake_case=false
 ignored_extensions=["import", "uid", "cfg", "ini", "txt", "json", "md", "csv"]
 ignored_folders=["addons"]
 
